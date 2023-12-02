@@ -4,10 +4,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class WelcomController {
+public class LoansController {
 
-    @GetMapping("welcome")
-    public String welcome() {
-        return "Welcome to Spring Security Guides!";
+    @GetMapping("/myLoans")
+    public String getLoans() {
+        return "내 대출 정보를 DB에 접근하여 가져오기";
     }
+
 }
