@@ -18,6 +18,10 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-security'
+    // ldap 의존성 추가
+    implementation 'org.springframework.ldap:spring-ldap-core'
+    implementation 'org.springframework.security:spring-security-ldap'
+
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
