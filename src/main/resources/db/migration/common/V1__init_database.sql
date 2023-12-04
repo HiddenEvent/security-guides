@@ -30,4 +30,4 @@ CREATE TABLE `customer`
 );
 
 INSERT INTO `customer` (`email`, `pwd`, `role`)
-VALUES ('johndoe@example.com', '54321', 'admin');
+VALUES ('aa@a.com', 'password', 'ADMIN');
