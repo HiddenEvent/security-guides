@@ -1,13 +1,33 @@
-create table users
+CREATE TABLE `users`
 (
-    username varchar(50)  not null primary key,
-    password varchar(500) not null,
-    enabled  boolean      not null
+    `id`       INT         NOT NULL AUTO_INCREMENT,
+    `username` VARCHAR(45) NOT NULL,
+    `password` VARCHAR(45) NOT NULL,
+    `enabled`  INT         NOT NULL,
+    PRIMARY KEY (`id`)
 );
-create table authorities
+
+CREATE TABLE `authorities`
 (
-    username  varchar(50) not null,
-    authority varchar(50) not null,
-    constraint fk_authorities_users foreign key (username) references users (username)
+    `id`        int         NOT NULL AUTO_INCREMENT,
+    `username`  varchar(45) NOT NULL,
+    `authority` varchar(45) NOT NULL,
+    PRIMARY KEY (`id`)
 );
-create unique index ix_auth_username on authorities (username, authority);
+
+INSERT IGNORE INTO `users`
+VALUES (NULL, 'happy', '12345', '1');
+INSERT IGNORE INTO `authorities`
+VALUES (NULL, 'happy', 'write');
+
+CREATE TABLE `customer`
+(
+    `id`    int          NOT NULL AUTO_INCREMENT,
+    `email` varchar(45)  NOT NULL,
+    `pwd`   varchar(200) NOT NULL,
+    `role`  varchar(45)  NOT NULL,
+    PRIMARY KEY (`id`)
+);
+
+INSERT INTO `customer` (`email`, `pwd`, `role`)
+VALUES ('johndoe@example.com', '54321', 'admin');
