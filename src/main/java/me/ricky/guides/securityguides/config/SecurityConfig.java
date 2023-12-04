@@ -30,10 +30,10 @@ public class SecurityConfig {
         http.httpBasic(withDefaults());
         return http.build();
     }
-    @Bean
-    public UserDetailsService userDetailsService(DataSource dataSource) {
-        return new JdbcUserDetailsManager(dataSource);
-    }
+//    @Bean
+//    public UserDetailsService userDetailsService(DataSource dataSource) {
+//        return new JdbcUserDetailsManager(dataSource);
+//    }
 
 //    @Bean
 //    public InMemoryUserDetailsManager userDetailsService() {
