@@ -24,6 +24,7 @@ public class RickyUserDetails implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         String userName, password;
         List<GrantedAuthority> authorities;
+        // email로 로그인하기 위한 커스텀 로직임
         List<Customer> customer = customerRepository.findByEmail(username);
         if (customer.isEmpty()) {
             throw new UsernameNotFoundException("User details not found for the user : " + username);
@@ -33,6 +34,9 @@ public class RickyUserDetails implements UserDetailsService {
             authorities = new ArrayList<>();
             authorities.add(new SimpleGrantedAuthority(customer.get(0).getRole()));
         }
+        // password != credentials
+        // password : DB에 저장된 암호화된 비밀번호이고
+        // credentials : 사용자가 입력한 비밀번호이다
         return new User(userName, password, authorities);
     }
 
