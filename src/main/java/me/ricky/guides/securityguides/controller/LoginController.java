@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -25,6 +26,7 @@ public class LoginController {
     public String registerUser(@RequestBody Customer customer) {
         Customer savedCustomer;
         customer.setPwd(passwordEncoder.encode(customer.getPwd()));
+        customer.setCreateDt(LocalDate.now());
         savedCustomer = customerRepository.save(customer);
         return "User registered successfully with id " + savedCustomer.getId();
     }
