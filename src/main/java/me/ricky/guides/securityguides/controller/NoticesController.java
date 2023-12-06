@@ -1,13 +1,31 @@
 package me.ricky.guides.securityguides.controller;
 
+import me.ricky.guides.securityguides.model.Notice;
+import me.ricky.guides.securityguides.repository.NoticeRepository;
+import org.springframework.http.CacheControl;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
 @RestController
 public class NoticesController {
+    private final NoticeRepository noticeRepository;
+
+    public NoticesController(NoticeRepository noticeRepository) {
+        this.noticeRepository = noticeRepository;
+    }
+
     @GetMapping("/notices")
-    public String getNotices() {
-        return "공지사항을 DB에 접근하여 가져오기";
+    public ResponseEntity<List<Notice>> getNotices() {
+        List<Notice> notices = noticeRepository.findAllActiveNotices();
+        if (notices.isEmpty()) return null;
+
+        return ResponseEntity.ok()
+                .cacheControl(CacheControl.maxAge(60, TimeUnit.SECONDS))
+                .body(notices);
     }
 
 }
