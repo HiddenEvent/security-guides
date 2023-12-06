@@ -26,7 +26,7 @@ public class SecurityConfig {
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable);
         http.authorizeHttpRequests((requests) -> requests
-                .requestMatchers("myAccount/**", "myBalance", "myLoans", "myCard").authenticated()
+                .requestMatchers("myAccount/**", "myBalance", "myLoans", "myCard", "user").authenticated()
                 .requestMatchers("contact", "notices", "register").permitAll()
         );
         http.formLogin(withDefaults());
