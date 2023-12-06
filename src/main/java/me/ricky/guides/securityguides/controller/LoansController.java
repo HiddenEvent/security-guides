@@ -1,14 +1,25 @@
 package me.ricky.guides.securityguides.controller;
 
+import me.ricky.guides.securityguides.model.Loan;
+import me.ricky.guides.securityguides.repository.LoanRepository;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 public class LoansController {
+    private final LoanRepository loanRepository;
+
+    public LoansController(LoanRepository loanRepository) {
+        this.loanRepository = loanRepository;
+    }
 
     @GetMapping("/myLoans")
-    public String getLoans() {
-        return "내 대출 정보를 DB에 접근하여 가져오기";
+    public List<Loan> getLoans(@RequestParam("id") int id) {
+        List<Loan> loans = loanRepository.findByCustomerIdOOrderByStartDtDesc(id);
+        return loans;
     }
 
 }
