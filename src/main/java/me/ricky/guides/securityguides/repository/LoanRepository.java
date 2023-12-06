@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface LoanRepository extends JpaRepository<Loan, Integer> {
-    List<Loan> findByCustomerIdOOrderByStartDtDesc(int customerId);
+    List<Loan> findByCustomerIdOrderByStartDtDesc(int customerId);
 }
