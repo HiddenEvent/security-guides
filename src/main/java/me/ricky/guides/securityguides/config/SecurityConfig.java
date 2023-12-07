@@ -1,18 +1,16 @@
 package me.ricky.guides.securityguides.config;
 
+import me.ricky.guides.securityguides.filter.CsrfCookieFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 import org.springframework.web.cors.CorsConfiguration;
-
-import javax.sql.DataSource;
 
 import java.util.Collections;
 
@@ -27,6 +25,7 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
+        // cors
         http.cors(httpSecurityCorsConfigurer -> {
             httpSecurityCorsConfigurer.configurationSource(httpServletRequest -> {
                 CorsConfiguration corsConfiguration = new CorsConfiguration();
@@ -38,10 +37,17 @@ public class SecurityConfig {
                 return corsConfiguration;
             });
         });
-        http.csrf(httpSecurityCsrfConfigurer -> {
-            // post, put, delete, patch 등 public api는 csrf 토큰 검사를 하지 않도록 설정
-            httpSecurityCsrfConfigurer.ignoringRequestMatchers("/contact", "/register");
+
+        // csrf
+        CsrfTokenRequestAttributeHandler csrfHandler = new CsrfTokenRequestAttributeHandler();
+        http.csrf(csrfConfigurer -> {
+            csrfConfigurer.csrfTokenRequestHandler(csrfHandler);
+            csrfConfigurer.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+            csrfConfigurer.ignoringRequestMatchers("/contact", "/register");
         });
+        http.addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class);
+
+        // authorize
         http.authorizeHttpRequests((requests) -> requests
                 .requestMatchers("myAccount/**", "myBalance", "myLoans", "myCard", "user").authenticated()
                 .requestMatchers("contact", "notices", "register", "error").permitAll()
