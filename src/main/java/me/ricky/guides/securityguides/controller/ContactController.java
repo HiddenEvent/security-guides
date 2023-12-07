@@ -2,7 +2,6 @@ package me.ricky.guides.securityguides.controller;
 
 import me.ricky.guides.securityguides.model.Contact;
 import me.ricky.guides.securityguides.repository.ContactRepository;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,10 +18,10 @@ public class ContactController {
     }
 
     @PostMapping("/contact")
-    public String getContact(@RequestBody Contact contact) {
+    public Contact getContact(@RequestBody Contact contact) {
         contact.setContactId(getServiceReqNumber());
         contact.setCreateDt(LocalDate.now());
-        return "연락처 정보를 DB에 접근하여 가져오기";
+        return contactRepository.save(contact);
     }
 
     private String getServiceReqNumber() {

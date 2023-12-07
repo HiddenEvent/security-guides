@@ -38,7 +38,10 @@ public class SecurityConfig {
                 return corsConfiguration;
             });
         });
-//        http.csrf(AbstractHttpConfigurer::disable);
+        http.csrf(httpSecurityCsrfConfigurer -> {
+            // post, put, delete, patch 등 public api는 csrf 토큰 검사를 하지 않도록 설정
+            httpSecurityCsrfConfigurer.ignoringRequestMatchers("/contact", "/register");
+        });
         http.authorizeHttpRequests((requests) -> requests
                 .requestMatchers("myAccount/**", "myBalance", "myLoans", "myCard", "user").authenticated()
                 .requestMatchers("contact", "notices", "register", "error").permitAll()
