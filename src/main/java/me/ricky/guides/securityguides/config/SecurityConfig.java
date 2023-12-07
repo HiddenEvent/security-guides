@@ -38,10 +38,10 @@ public class SecurityConfig {
                 return corsConfiguration;
             });
         });
-        http.csrf(AbstractHttpConfigurer::disable);
+//        http.csrf(AbstractHttpConfigurer::disable);
         http.authorizeHttpRequests((requests) -> requests
                 .requestMatchers("myAccount/**", "myBalance", "myLoans", "myCard", "user").authenticated()
-                .requestMatchers("contact", "notices", "register").permitAll()
+                .requestMatchers("contact", "notices", "register", "error").permitAll()
         );
         http.formLogin(withDefaults());
         http.httpBasic(withDefaults());
