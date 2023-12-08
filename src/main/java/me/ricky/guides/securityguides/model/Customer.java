@@ -1,8 +1,10 @@
 package me.ricky.guides.securityguides.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 @Table(name = "customer")
@@ -29,6 +31,10 @@ public class Customer {
 
     @Column(name = "create_dt")
     private LocalDate createDt;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    private Set<Authority> authorities;
 
     public Integer getId() {
         return id;
@@ -86,4 +92,11 @@ public class Customer {
         this.createDt = createDt;
     }
 
+    public Set<Authority> getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(Set<Authority> authorities) {
+        this.authorities = authorities;
+    }
 }
