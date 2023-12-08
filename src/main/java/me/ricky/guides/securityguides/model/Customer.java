@@ -33,7 +33,7 @@ public class Customer {
     private LocalDate createDt;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "customer", cascade = CascadeType.ALL)
     private Set<Authority> authorities;
 
     public Integer getId() {

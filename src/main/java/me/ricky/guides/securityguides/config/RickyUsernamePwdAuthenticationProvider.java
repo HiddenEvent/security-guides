@@ -1,5 +1,6 @@
 package me.ricky.guides.securityguides.config;
 
+import me.ricky.guides.securityguides.model.Authority;
 import me.ricky.guides.securityguides.model.Customer;
 import me.ricky.guides.securityguides.repository.CustomerRepository;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+
 @Component
 public class RickyUsernamePwdAuthenticationProvider implements AuthenticationProvider {
 
@@ -33,15 +36,22 @@ public class RickyUsernamePwdAuthenticationProvider implements AuthenticationPro
         List<Customer> customer = customerRepository.findByEmail(username);
         if (!customer.isEmpty()) {
             if (passwordEncoder.matches(pwd, customer.get(0).getPwd())) {
-                List<GrantedAuthority> authorities = new ArrayList<>();
-                authorities.add(new SimpleGrantedAuthority(customer.get(0).getRole()));
-                return new UsernamePasswordAuthenticationToken(username, pwd, authorities);
+                List<GrantedAuthority> grantedAuthorities = getGrantedAuthorities(customer.get(0).getAuthorities());
+                return new UsernamePasswordAuthenticationToken(username, pwd, grantedAuthorities);
             } else {
                 throw new BadCredentialsException("Invalid password!");
             }
         } else {
             throw new BadCredentialsException("No user registered with this details!");
         }
+    }
+    // getGrantedAuthorities 메서드 생성
+    private List<GrantedAuthority> getGrantedAuthorities(Set<Authority> authorities) {
+        List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+        for (Authority authority : authorities) {
+            grantedAuthorities.add(new SimpleGrantedAuthority(authority.getName()));
+        }
+        return grantedAuthorities;
     }
 
     @Override
