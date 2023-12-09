@@ -55,10 +55,16 @@ public class SecurityConfig {
 
         // authorize
         http.authorizeHttpRequests((requests) -> requests
-                .requestMatchers("myAccount").hasAuthority("VIEWACCOUNT")
-                .requestMatchers("myBalance").hasAnyAuthority("VIEWACCOUNT","VIEWBALANCE")
-                .requestMatchers("myLoans").hasAuthority("VIEWLOANS")
-                .requestMatchers("myCard").hasAuthority("VIEWCARDS")
+//                .requestMatchers("myAccount").hasAuthority("VIEWACCOUNT")
+//                .requestMatchers("myBalance").hasAnyAuthority("VIEWACCOUNT","VIEWBALANCE")
+//                .requestMatchers("myLoans").hasAuthority("VIEWLOANS")
+//                .requestMatchers("myCard").hasAuthority("VIEWCARDS")
+
+                .requestMatchers("myAccount").hasRole("USER")
+                .requestMatchers("myBalance").hasAnyRole("USER","ADMIN")
+                .requestMatchers("myLoans").hasRole("USER")
+                .requestMatchers("myCard").hasRole("USER")
+
 
                 .requestMatchers("user").authenticated()
                 .requestMatchers("contact", "notices", "register", "error").permitAll()
