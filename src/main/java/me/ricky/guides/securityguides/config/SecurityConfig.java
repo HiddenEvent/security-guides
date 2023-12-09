@@ -55,7 +55,12 @@ public class SecurityConfig {
 
         // authorize
         http.authorizeHttpRequests((requests) -> requests
-                .requestMatchers("myAccount/**", "myBalance", "myLoans", "myCard", "user").authenticated()
+                .requestMatchers("myAccount").hasAuthority("VIEWACCOUNT")
+                .requestMatchers("myBalance").hasAnyAuthority("VIEWACCOUNT","VIEWBALANCE")
+                .requestMatchers("myLoans").hasAuthority("VIEWLOANS")
+                .requestMatchers("myCard").hasAuthority("VIEWCARDS")
+
+                .requestMatchers("user").authenticated()
                 .requestMatchers("contact", "notices", "register", "error").permitAll()
         );
         http.formLogin(withDefaults());
