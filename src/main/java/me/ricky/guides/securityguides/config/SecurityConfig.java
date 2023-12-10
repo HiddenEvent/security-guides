@@ -43,10 +43,10 @@ public class SecurityConfig {
         });
 
         // csrf
-        http.securityContext(securityContextConfigurer ->
-                securityContextConfigurer.requireExplicitSave(false));
-        http.sessionManagement(session ->
-                session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS));
+//        http.securityContext(securityContextConfigurer ->
+//                securityContextConfigurer.requireExplicitSave(false));
+//        http.sessionManagement(session ->
+//                session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS));
 
         CsrfTokenRequestAttributeHandler csrfHandler = new CsrfTokenRequestAttributeHandler();
         http.csrf(csrfConfigurer -> {
