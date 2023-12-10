@@ -45,8 +45,9 @@ public class SecurityConfig {
         // csrf
 //        http.securityContext(securityContextConfigurer ->
 //                securityContextConfigurer.requireExplicitSave(false));
-//        http.sessionManagement(session ->
-//                session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS));
+        http.sessionManagement(session ->
+                session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+
 
         CsrfTokenRequestAttributeHandler csrfHandler = new CsrfTokenRequestAttributeHandler();
         http.csrf(csrfConfigurer -> {
