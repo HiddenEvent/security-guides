@@ -1,5 +1,6 @@
 package me.ricky.guides.securityguides.config;
 
+import me.ricky.guides.securityguides.filter.AuthoritiesLoggingAfterFilter;
 import me.ricky.guides.securityguides.filter.CsrfCookieFilter;
 import me.ricky.guides.securityguides.filter.RequestValidationBeforeFilter;
 import org.springframework.context.annotation.Bean;
@@ -54,6 +55,7 @@ public class SecurityConfig {
         });
         http.addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class);
         http.addFilterBefore(new RequestValidationBeforeFilter(), BasicAuthenticationFilter.class);
+        http.addFilterAfter(new AuthoritiesLoggingAfterFilter(), BasicAuthenticationFilter.class);
 
         // authorize
         http.authorizeHttpRequests((requests) -> requests
