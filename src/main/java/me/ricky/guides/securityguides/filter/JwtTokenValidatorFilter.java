@@ -19,6 +19,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import javax.crypto.SecretKey;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -35,7 +36,7 @@ public class JwtTokenValidatorFilter extends OncePerRequestFilter {
                         .parseSignedClaims(jwt)
                         .getPayload();
                 String username = String.valueOf(claims.get("username"));
-                Set<String> authorities = (Set<String>) claims.get("authorities");
+                Set<String> authorities = new HashSet<>((List<String>) claims.get("authorities"));
 
                 Authentication auth = new UsernamePasswordAuthenticationToken(username, null, generateGrantedAuthorities(authorities));
                 SecurityContextHolder.getContext().setAuthentication(auth);

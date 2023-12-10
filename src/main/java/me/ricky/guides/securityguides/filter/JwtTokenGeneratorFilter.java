@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import me.ricky.guides.securityguides.constants.SecurityConstants;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -15,6 +16,7 @@ import javax.crypto.SecretKey;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
+import java.util.stream.Collectors;
 
 public class JwtTokenGeneratorFilter extends OncePerRequestFilter {
     @Override
@@ -24,7 +26,9 @@ public class JwtTokenGeneratorFilter extends OncePerRequestFilter {
             SecretKey key = Keys.hmacShaKeyFor(SecurityConstants.JWT_KEY.getBytes(StandardCharsets.UTF_8));
             String jwt = Jwts.builder().issuer("Ricky").subject("JWT Token")
                     .claim("username", authentication.getName())
-                    .claim("authorities", authentication.getAuthorities())
+                    .claim("authorities", authentication.getAuthorities().stream()
+                            .map(GrantedAuthority::getAuthority)
+                            .collect(Collectors.toSet()))
                     .issuedAt(new Date())
                     .expiration(new Date(System.currentTimeMillis() + 3600000)) // 3600000 = 1 hour
                     .signWith(key)
