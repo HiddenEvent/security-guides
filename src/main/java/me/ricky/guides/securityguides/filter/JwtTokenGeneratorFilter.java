@@ -37,6 +37,6 @@ public class JwtTokenGeneratorFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        return !request.getServletPath().equals("/user"); // /user 요청인 경우만 필터 사용 설정
+        return !request.getServletPath().equals("/user"); // /user Endpoint 만, 필터 적용
     }
 }

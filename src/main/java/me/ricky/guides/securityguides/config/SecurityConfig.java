@@ -59,7 +59,9 @@ public class SecurityConfig {
         http.addFilterBefore(new RequestValidationBeforeFilter(), BasicAuthenticationFilter.class);
         http.addFilterAfter(new AuthoritiesLoggingAfterFilter(), BasicAuthenticationFilter.class);
         http.addFilterAt(new AuthoritiesLoggingAtFilter(), BasicAuthenticationFilter.class);
+
         http.addFilterAfter(new JwtTokenGeneratorFilter(), BasicAuthenticationFilter.class);
+        http.addFilterBefore(new JwtTokenValidatorFilter(), BasicAuthenticationFilter.class);
 
         // authorize
         http.authorizeHttpRequests((requests) -> requests
