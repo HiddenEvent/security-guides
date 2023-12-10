@@ -1,9 +1,6 @@
 package me.ricky.guides.securityguides.config;
 
-import me.ricky.guides.securityguides.filter.AuthoritiesLoggingAfterFilter;
-import me.ricky.guides.securityguides.filter.AuthoritiesLoggingAtFilter;
-import me.ricky.guides.securityguides.filter.CsrfCookieFilter;
-import me.ricky.guides.securityguides.filter.RequestValidationBeforeFilter;
+import me.ricky.guides.securityguides.filter.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -62,6 +59,7 @@ public class SecurityConfig {
         http.addFilterBefore(new RequestValidationBeforeFilter(), BasicAuthenticationFilter.class);
         http.addFilterAfter(new AuthoritiesLoggingAfterFilter(), BasicAuthenticationFilter.class);
         http.addFilterAt(new AuthoritiesLoggingAtFilter(), BasicAuthenticationFilter.class);
+        http.addFilterAfter(new JwtTokenGeneratorFilter(), BasicAuthenticationFilter.class);
 
         // authorize
         http.authorizeHttpRequests((requests) -> requests
