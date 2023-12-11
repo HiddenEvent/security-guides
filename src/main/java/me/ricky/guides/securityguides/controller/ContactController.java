@@ -2,6 +2,7 @@ package me.ricky.guides.securityguides.controller;
 
 import me.ricky.guides.securityguides.model.Contact;
 import me.ricky.guides.securityguides.repository.ContactRepository;
+import org.springframework.security.access.prepost.PostFilter;
 import org.springframework.security.access.prepost.PreFilter;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,7 +22,8 @@ public class ContactController {
     }
 
     @PostMapping("/contact")
-    @PreFilter("filterObject.contactName != 'Test'")
+//    @PreFilter("filterObject.contactName != 'Test'")
+    @PostFilter("filterObject.contactName != 'Test'")
     public List<Contact> getContact(@RequestBody List<Contact> contacts) {
         Contact contact = contacts.get(0);
         contact.setContactId(getServiceReqNumber());
