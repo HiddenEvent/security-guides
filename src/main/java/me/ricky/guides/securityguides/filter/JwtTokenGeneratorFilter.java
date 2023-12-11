@@ -30,7 +30,7 @@ public class JwtTokenGeneratorFilter extends OncePerRequestFilter {
                             .map(GrantedAuthority::getAuthority)
                             .collect(Collectors.toSet()))
                     .issuedAt(new Date())
-                    .expiration(new Date(System.currentTimeMillis() + 3600000)) // 3600000 = 1 hour
+                    .expiration(new Date(System.currentTimeMillis() + 3600000))
                     .signWith(key)
                     .compact();
             response.setHeader(HttpHeaders.AUTHORIZATION, jwt);
