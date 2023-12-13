@@ -65,8 +65,6 @@ public class SecurityConfig {
                 .requestMatchers("user", "myLoans").authenticated()
                 .requestMatchers("contact", "notices", "register", "error").permitAll()
         );
-        http.formLogin(withDefaults());
-        http.httpBasic(withDefaults());
         return http.build();
     }
 //    @Bean
