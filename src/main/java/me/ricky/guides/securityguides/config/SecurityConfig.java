@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
@@ -21,6 +22,10 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
+        // keycloak jwt Converter
+        JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
+        jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(new KeycloakRoleConverter());
+
         // cors
         http.cors(httpSecurityCorsConfigurer -> {
             httpSecurityCorsConfigurer.configurationSource(httpServletRequest -> {
@@ -36,8 +41,6 @@ public class SecurityConfig {
         });
 
         // csrf
-//        http.securityContext(securityContextConfigurer ->
-//                securityContextConfigurer.requireExplicitSave(false));
         http.sessionManagement(session ->
                 session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
@@ -53,40 +56,18 @@ public class SecurityConfig {
 
         // authorize
         http.authorizeHttpRequests((requests) -> requests
-//                .requestMatchers("myAccount").hasAuthority("VIEWACCOUNT")
-//                .requestMatchers("myBalance").hasAnyAuthority("VIEWACCOUNT","VIEWBALANCE")
-//                .requestMatchers("myLoans").hasAuthority("VIEWLOANS")
-//                .requestMatchers("myCard").hasAuthority("VIEWCARDS")
-
                 .requestMatchers("myAccount").hasRole("USER")
-                .requestMatchers("myBalance").hasAnyRole("USER","ADMIN")
+                .requestMatchers("myBalance").hasAnyRole("USER", "ADMIN")
                 .requestMatchers("myCard").hasRole("USER")
 
                 .requestMatchers("user", "myLoans").authenticated()
                 .requestMatchers("contact", "notices", "register", "error").permitAll()
         );
+        http.oauth2ResourceServer(oauth2ResourceServer ->
+                oauth2ResourceServer.jwt(jwt ->
+                        jwt.jwtAuthenticationConverter(jwtAuthenticationConverter)
+                )
+        );
         return http.build();
     }
-//    @Bean
-//    public UserDetailsService userDetailsService(DataSource dataSource) {
-//        return new JdbcUserDetailsManager(dataSource);
-//    }
-
-//    @Bean
-//    public InMemoryUserDetailsManager userDetailsService() {
-//
-//        UserDetails admin = User.builder()
-//                .username("admin")
-//                .password(passwordEncoder().encode("password"))
-//                .roles("ADMIN")
-//                .build();
-//
-//        UserDetails user = User.builder()
-//                .username("user")
-//                .password(passwordEncoder().encode("password"))
-//                .roles("USER")
-//                .build();
-//
-//        return new InMemoryUserDetailsManager(admin, user);
-//    }
 }
