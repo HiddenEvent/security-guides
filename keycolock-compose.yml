@@ -1,5 +1,5 @@
 version: '3'
-
+# 볼륨생성 위치: \\wsl.localhost\docker-desktop-data\mnt\wslg\distro\data\docker\volumes\security-guides_mysql_data\_data
 volumes:
   mysql_data:
       driver: local
