@@ -2,7 +2,7 @@
 POST {{keycloak-domain}}/realms/security-guide/protocol/openid-connect/token
 Content-Type: application/x-www-form-urlencoded
 
-client-id=security-guide-api&client-secret=NlNzUrSuI9MLbt7dAwzM3Zp5duJYXwb2&scope=openid email profile address&grant_type=client_credentials
+client_id=secapi&client_secret=ee2DZvaO9FDEuTSXsD0T2VjDK16w8efU&scope=openid email profile address&grant_type=client_credentials
 
 #"scopes_supported": [
 #    openid, offline_access, acr, profile, web-origins, email, address, roles, microprofile-jwt, phone
