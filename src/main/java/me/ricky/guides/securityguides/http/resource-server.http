@@ -1,0 +1,4 @@
+##################################################################  1. keycloak 토큰 발행 (client_credentials 방식)
+GET {{resource-domain}}/myCard?id=1
+authorization: Bearer {{access_token}}
+
