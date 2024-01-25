@@ -57,7 +57,7 @@ public class SecurityConfig {
         // authorize
         http.authorizeHttpRequests((requests) -> requests
                 .requestMatchers("myAccount").hasRole("USER")
-                .requestMatchers("myBalance").hasAnyRole("USER", "ADMIN")
+                .requestMatchers("myBalance").hasAnyRole("USER", "ADMIN", "SYSTEM")
                 .requestMatchers("myCard").hasRole("USER")
 
                 .requestMatchers("user", "myLoans").authenticated()

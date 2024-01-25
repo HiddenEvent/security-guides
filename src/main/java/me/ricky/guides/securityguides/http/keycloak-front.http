@@ -1,0 +1,3 @@
+### realms에 해당하는 유저 카운트 조회
+GET {{keycloak-domain}}/admin/realms/security-guide/users/count
+authorization: Bearer {{access_token}}
