@@ -59,6 +59,36 @@ Content-Type: application/json
   ]
 }
 
+### 사용자 권한 부여 가능 목록
+GET {{keycloak-domain}}/admin/realms/security-guide/users/e480796b-ae48-4a33-81e5-d081a9ed464d/role-mappings/realm/available
+authorization: Bearer {{access_token}}
+
+
+### 사용자 권한 부여
+POST {{keycloak-domain}}/admin/realms/security-guide/users/e480796b-ae48-4a33-81e5-d081a9ed464d/role-mappings/realm
+authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+[
+  {
+    "id": "cd44c035-107a-4238-9b46-0f33b333861c",
+    "name": "USER"
+  }
+]
+
+### 사용자 권한 삭제
+DELETE {{keycloak-domain}}/admin/realms/security-guide/users/e480796b-ae48-4a33-81e5-d081a9ed464d/role-mappings/realm
+authorization: Bearer {{access_token}}
+Content-Type: application/json
+
+[
+  {
+    "id": "cd44c035-107a-4238-9b46-0f33b333861c",
+    "name": "USER"
+  }
+]
+
+
 ### Client 목록 조회
 GET {{keycloak-domain}}/admin/realms/security-guide/clients
 authorization: Bearer {{access_token}}
