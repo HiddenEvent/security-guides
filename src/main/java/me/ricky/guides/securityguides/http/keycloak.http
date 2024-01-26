@@ -17,17 +17,18 @@ grant_type = client_credentials
 # 2) client서버에서 keycloak 서버로 redirect
 # 3) keycloak 서버에서 user가 로그인 후 code 발행
 # 4) client 서버에서 code를 이용하여 keycloak서버에 토큰 발행
-### 1-1. keycloak 서버 사용자 인증
+### 1-1. keycloak 서버 사용자가 직접 접속하여 인증 수행
 GET {{keycloak-domain}}/realms/security-guide/protocol/openid-connect/auth?
     client_id=spaclient&
     response_type=code&
     scope=openid&
-    redirect_uri=http://localhost:7080/sample
-    &state=sgdfsgswregd
+    redirect_uri=http://localhost:7080/sample&
+    state=sgdfsgswregd
 
 > {%
     client.log(response.body);
 %}
+
 ### 1-2. 로그인 성공 후 keycloak 서버로 부터 받은 code를 이용하여, 토큰 발행
 POST {{keycloak-domain}}/realms/security-guide/protocol/openid-connect/token
 Content-Type: application/x-www-form-urlencoded
