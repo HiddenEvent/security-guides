@@ -46,6 +46,10 @@ public class AuthService {
         UserRepresentation user = new UserRepresentation();
         user.setEnabled(true);
         user.setUsername(userDto.getEmail());
+        user.setEmail(userDto.getEmail());
+        user.setEmailVerified(true);
+        user.setFirstName(userDto.getFirstName());
+        user.setLastName(userDto.getLastName());
 
         // Get realm
         RealmResource realmResource = keycloak.realm(realm);
@@ -61,6 +65,7 @@ public class AuthService {
             passwordCred.setTemporary(false);
             passwordCred.setType(CredentialRepresentation.PASSWORD);
             passwordCred.setValue(userDto.getPassword());
+
             log.info("Created userId {}", userId);
             UserResource userResource = usersResource.get(userId);
 
@@ -69,7 +74,13 @@ public class AuthService {
 
             // role 세팅
             ClientRepresentation clientRep = realmResource.clients().findByClientId(clientId).get(0);
-            RoleRepresentation clientRoleRep = realmResource.clients().get(clientRep.getId()).roles().get(userDto.getUserRole().getCode()).toRepresentation();
+            List<RoleRepresentation> list = realmResource.clients().get(clientRep.getId()).roles().list();
+            System.out.println(list);
+            RoleRepresentation clientRoleRep =
+                    realmResource.clients().get(clientRep.getId()).roles()
+                    .get(userDto.getUserRole().getCode())
+                    .toRepresentation();
+
             userResource.roles().clientLevel(clientRep.getId()).add(Collections.singletonList(clientRoleRep));
 
         }

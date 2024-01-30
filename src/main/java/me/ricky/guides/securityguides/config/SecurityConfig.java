@@ -49,7 +49,7 @@ public class SecurityConfig {
         http.csrf(csrfConfigurer -> {
             csrfConfigurer.csrfTokenRequestHandler(csrfHandler);
             csrfConfigurer.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
-            csrfConfigurer.ignoringRequestMatchers("/contact", "/register");
+            csrfConfigurer.ignoringRequestMatchers("/contact", "/register", "auth/**");
         });
         http.addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class);
 
@@ -61,7 +61,7 @@ public class SecurityConfig {
                 .requestMatchers("myCard").hasRole("USER")
 
                 .requestMatchers("user", "myLoans").authenticated()
-                .requestMatchers("contact", "notices", "register", "error").permitAll()
+                .requestMatchers("contact", "notices", "register", "error", "auth/**").permitAll()
         );
         http.oauth2ResourceServer(oauth2ResourceServer ->
                 oauth2ResourceServer.jwt(jwt ->
