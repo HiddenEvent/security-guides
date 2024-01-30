@@ -4,6 +4,7 @@ import jakarta.ws.rs.core.Response;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.ricky.guides.securityguides.model.dto.UserDto;
+import org.keycloak.OAuth2Constants;
 import org.keycloak.admin.client.CreatedResponseUtil;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.KeycloakBuilder;
@@ -97,9 +98,9 @@ public class AuthService {
                 .realm(realm)
                 .clientId(clientId)
                 .clientSecret(clientSecret)
+                .grantType(OAuth2Constants.PASSWORD)
                 .username(userDto.getEmail())
                 .password(userDto.getPassword())
-                .grantType("password")
                 .build();
 
         AccessTokenResponse response = keycloak.tokenManager().getAccessToken();
