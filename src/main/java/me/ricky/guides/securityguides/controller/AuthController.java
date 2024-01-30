@@ -3,13 +3,11 @@ package me.ricky.guides.securityguides.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.ricky.guides.securityguides.model.dto.UserDto;
+import me.ricky.guides.securityguides.model.dto.UsersSearchRequest;
 import me.ricky.guides.securityguides.service.AuthService;
 import org.keycloak.representations.AccessTokenResponse;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @Slf4j
@@ -41,5 +39,11 @@ public class AuthController {
 
     AccessTokenResponse response = authService.setAuth(userDto);
     return ResponseEntity.ok(response);
+  }
+
+  @GetMapping("/users")
+  public ResponseEntity<?> findAllUsers(UsersSearchRequest request) {
+    authService.findAllUsers(request);
+    return ResponseEntity.ok(null);
   }
 }

@@ -4,6 +4,7 @@ import jakarta.ws.rs.core.Response;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.ricky.guides.securityguides.model.dto.UserDto;
+import me.ricky.guides.securityguides.model.dto.UsersSearchRequest;
 import org.keycloak.OAuth2Constants;
 import org.keycloak.admin.client.CreatedResponseUtil;
 import org.keycloak.admin.client.Keycloak;
@@ -118,5 +119,13 @@ public class AuthService {
             return true;
         }
         return false;
+    }
+
+    public void findAllUsers(UsersSearchRequest request) {
+        RealmResource realmResource = keycloak.realm(realm);
+        UsersResource usersResource = realmResource.users();
+
+        List<UserRepresentation> users = usersResource.search(request.username());
+        log.info("users : {}", users);
     }
 }
