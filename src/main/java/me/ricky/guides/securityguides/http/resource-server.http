@@ -49,3 +49,7 @@ Content-Type: application/json
   "email": "c@cc.com",
   "password": "1234"
 }
+
+> {%
+    client.global.set("access_token", response.body.access_token)
+%}

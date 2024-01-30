@@ -76,7 +76,6 @@ public class AuthService {
             // role 세팅
             ClientRepresentation clientRep = realmResource.clients().findByClientId(clientId).get(0);
             List<RoleRepresentation> list = realmResource.clients().get(clientRep.getId()).roles().list();
-            System.out.println(list);
             RoleRepresentation clientRoleRep =
                     realmResource.clients().get(clientRep.getId()).roles()
                     .get(userDto.getUserRole().getCode())
